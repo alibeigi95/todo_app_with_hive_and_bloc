@@ -31,6 +31,7 @@ dependencies:
   flutter_bloc:
   hive:
   hive_flutter:
+  equatable:
   flutter:
     sdk: flutter
 
