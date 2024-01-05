@@ -30,6 +30,17 @@ class HomePage extends StatelessWidget {
                   ),
                 );
               }
+              if (state is HomeInitial) {
+                if (state.error != null) {
+                  showDialog(
+                    context: context,
+                    builder: (context) => AlertDialog(
+                      title: Text('Error'),
+                      content: Text(state.error!),
+                    ),
+                  );
+                }
+              }
             },
             builder: (context, state) {
               if (state is HomeInitial) {
@@ -44,14 +55,32 @@ class HomePage extends StatelessWidget {
                       decoration: const InputDecoration(labelText: 'password'),
                       controller: passWordTextController,
                     ),
-                    ElevatedButton(
-                      onPressed: () => BlocProvider.of<HomeBloc>(context).add(
-                        LoginEvent(
-                          username: userNameTextController.text,
-                          password: passWordTextController.text,
+                    const SizedBox(height: 10),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        ElevatedButton(
+                          onPressed: () =>
+                              BlocProvider.of<HomeBloc>(context).add(
+                            LoginEvent(
+                              username: userNameTextController.text,
+                              password: passWordTextController.text,
+                            ),
+                          ),
+                          child: const Text('Login'),
                         ),
-                      ),
-                      child: const Text('Login'),
+                        const SizedBox(width: 10),
+                        ElevatedButton(
+                            onPressed: () {
+                              BlocProvider.of<HomeBloc>(context).add(
+                                RegisterAccountEvent(
+                                  username: userNameTextController.text,
+                                  password: passWordTextController.text,
+                                ),
+                              );
+                            },
+                            child: const Text('Register'))
+                      ],
                     )
                   ],
                 );

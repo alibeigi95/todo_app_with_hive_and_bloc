@@ -8,9 +8,11 @@ class TodoService {
     Hive.registerAdapter(TaskAdapter());
     _tasks = await Hive.openBox('tasks');
 
-     await _tasks.clear();
-   await _tasks.add(Task(user: 'ali', task: 'this is a test', completed: true));
-   await _tasks.add(Task(user: 'ali2', task: 'this is a test2', completed: false));
+    await _tasks.clear();
+    await _tasks
+        .add(Task(user: 'ali', task: 'this is a test', completed: true));
+    await _tasks
+        .add(Task(user: 'ali2', task: 'this is a test2', completed: false));
   }
 
   List<Task> getTasks(final String username) {
@@ -28,8 +30,10 @@ class TodoService {
     await taskToRemove.delete();
   }
 
-  Future<void> updateTask(final String task, final String username,
-      {final bool? completed}) async {
+  Future<void> updateTask(
+    final String task,
+    final String username,
+  ) async {
     final taskToEdit =
         _tasks.values.firstWhere((e) => e.user == username && e.task == task);
     final index = taskToEdit.key as int;
@@ -38,7 +42,7 @@ class TodoService {
         Task(
           user: username,
           task: task,
-          completed: completed ?? taskToEdit.completed,
+          completed: !taskToEdit.completed,
         ));
   }
 }
